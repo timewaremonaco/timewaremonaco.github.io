@@ -122,6 +122,26 @@
             gap: 0;
         }
 
+        /* Custom Scrollbar for Tabs */
+        .tabs-container::-webkit-scrollbar {
+            height: 4px;
+        }
+        .tabs-container::-webkit-scrollbar-track {
+            background: #140E1F;
+        }
+        .tabs-container::-webkit-scrollbar-thumb {
+            background-color: #44475A;
+            border-radius: 10px;
+        }
+        .tabs-container::-webkit-scrollbar-thumb:hover {
+            background-color: #BD93F9;
+        }
+        .tabs-container {
+            scrollbar-width: thin;
+            scrollbar-color: #44475A #140E1F;
+        }
+
+
         .tab {
             display: flex;
             align-items: center;
@@ -673,7 +693,6 @@
 
         function setupGlobalContextMenu() {
             document.addEventListener('contextmenu', (event) => {
-                // Allow context menu on tabs (for our custom menu) and inside the editor's text area
                 const isTab = event.target.closest('.tab');
                 const isEditorText = event.target.closest('.monaco-editor .view-lines');
 
@@ -1183,6 +1202,7 @@
     }
 }
 }
+
 
                 for (const prop in libData) {
                     for (const item in libData[prop]) {
