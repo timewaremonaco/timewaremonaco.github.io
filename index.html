@@ -20,13 +20,14 @@
             flex-direction: row;
             height: 100%;
             width: 100%;
-            position: relative; /* Needed for absolute positioning of children */
+            position: relative;
         }
 
         .side-bar {
             width: 10px;
             background-color: #1E152F;
             flex-shrink: 0;
+            user-select: none;
         }
 
         .center-column {
@@ -66,7 +67,7 @@
             opacity: 0.6;
             -webkit-app-region: no-drag;
             user-select: none;
-            padding-left: 10px; /* This is the line to change */
+            padding-left: 10px;
         }
 
         .logo svg {
@@ -94,6 +95,7 @@
             justify-content: center;
             cursor: pointer;
             transition: background-color 0.2s ease;
+            user-select: none;
         }
 
         .window-control-btn svg {
@@ -247,6 +249,10 @@
         #container .monaco-editor .view-overlays .current-line {
             width: calc(100% - 100px) !important;
             box-sizing: border-box;
+        }
+
+        .monaco-editor .line-numbers {
+            user-select: none;
         }
 
         .bottom-bar {
@@ -665,10 +671,13 @@
             });
         }
 
-        function setupHeaderContextMenu() {
-            const topContainer = document.querySelector('.top-container');
-            topContainer.addEventListener('contextmenu', (event) => {
-                if (!event.target.closest('.tab')) {
+        function setupGlobalContextMenu() {
+            document.addEventListener('contextmenu', (event) => {
+                // Allow context menu on tabs (for our custom menu) and inside the editor's text area
+                const isTab = event.target.closest('.tab');
+                const isEditorText = event.target.closest('.monaco-editor .view-lines');
+
+                if (!isTab && !isEditorText) {
                     event.preventDefault();
                 }
             });
@@ -719,7 +728,7 @@
             loadTabs();
             setupAutosave();
             setupActionButtons();
-            setupHeaderContextMenu();
+            setupGlobalContextMenu();
 
             const AddIntellisense = (label, kind, detail, insertText) => {
                 const kindMap = {
