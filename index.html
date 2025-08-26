@@ -117,7 +117,7 @@
             display: flex;
             height: 35px;
             width: 100%;
-            overflow-x: auto;
+            overflow-x: overlay; /* ✅ CHANGED: Makes scrollbar an overlay */
             border-top: 1px solid #140E1F;
             gap: 0;
         }
@@ -127,7 +127,7 @@
             height: 4px;
         }
         .tabs-container::-webkit-scrollbar-track {
-            background: #140E1F;
+            background: transparent; /* Makes track invisible */
         }
         .tabs-container::-webkit-scrollbar-thumb {
             background-color: #44475A;
@@ -138,7 +138,7 @@
         }
         .tabs-container {
             scrollbar-width: thin;
-            scrollbar-color: #44475A #140E1F;
+            scrollbar-color: #44475A transparent;
         }
 
 
@@ -149,7 +149,7 @@
             background-color: #251D3A;
             color: #9E88BE;
             border-right: 1px solid #140E1F;
-            min-width: 120px;
+            min-width: 110px; /* ✅ CHANGED: Tabs are now smaller */
             max-width: 200px;
             position: relative;
             cursor: pointer;
@@ -655,15 +655,11 @@
 
             executeBtn.addEventListener('click', () => {
                 const code = editor.getValue();
-                console.log("Executing script:", code);
-                alert("Execute button clicked!");
-                // window.chrome.webview.postMessage({ action: 'execute', script: code });
+                window.chrome.webview.postMessage({ action: 'execute', payload: code });
             });
 
             injectBtn.addEventListener('click', () => {
-                console.log("Injecting...");
-                alert("Inject button clicked!");
-                // window.chrome.webview.postMessage({ action: 'inject' });
+                window.chrome.webview.postMessage({ action: 'inject' });
             });
 
             openFileBtn.addEventListener('click', () => {
